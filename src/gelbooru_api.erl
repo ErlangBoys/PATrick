@@ -11,22 +11,27 @@
 %% cid Change ID of the post. This is in Unix time so there are likely others with the same value if updated at the same time.
 %% id The post id.
 %% json Set to 1 for JSON formatted response.
--record(gelbooru_schema, {url, path, query, limit, pid}).
+-record(gelbooru_schema, {url = <<"https://gelbooru.com/">>,
+			  path = <<"index.php?page=dapi&s=post&q=index&json=1&limit=100">>,
+			  pid, tag, id}).
 
+get_photo({Pid,Tag}) ->
+%%  hackney_url:qs([{<<"none">>,<<"pror">>},{<<"none">>,<<"por">>}]).  
+%% <<"none=pror&none=por">>
 
-get_photo(_Params) ->
-    GConf = #gelbooru_schema{url = <<"https://gelbooru.com/">>,
-			 path = <<"index.php">>,
-			 query = <<"page=dapi&s=post&q=index&json=1">>,
-			 limit = 100,
-			 pid = 1
+    GConf = #gelbooru_schema{pid= <<Pid>>,
+			     tag= <<Tag>>
 			    },
+
+    URL = hackney_url:make_url(GConf#gelbooru_schema.url,
+			       GConf#gelbooru_schema.path,
+			       [{<<"pid">>, <<(GConf#gelbooru_schema.pid)/binary>>},
+				{<<"tags">>, <<(GConf#gelbooru_schema.tag)/binary>>}]),
     
-    URL = hackney:make_url(GConf#gelbooru_schema.url, GConf#gelbooru_schema.path, GConf#gelbooru_schema.query),
-    {ok, _ResultCode, Result} = hackney:request(get, URL), 
-    io:format("~p",Result).
-			    
-			     
+    {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
+    {ok, BinaryResponse} = hackney:body(ClientRef,infinity),
+    BinaryResponse.
+
 %% case :hackney.get(url, [],[], [:with_body]) do
 %%  {:ok, status, _headers, body} when status in 200..299 ->
 %%    {:ok, Poison.decode!(body)}
