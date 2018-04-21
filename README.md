@@ -24,6 +24,20 @@ $ ./rebar3 shell
   * chan.sankakucomplex.com [API](https://chan.sankakucomplex.com/help/api)
   * idol.sankakucomplex.com [API](https://idol.sankakucomplex.com/help/api)
 
+## Branches
+
+### moebooru_api
+
+    Api configurations are available for the following websites
+    yande.re
+    konachan.com
+
+### sankaku
+
+    API configurations are available for the following websites
+    chan.sankakucomplex.com
+    idol.sankakucomplex.com
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
