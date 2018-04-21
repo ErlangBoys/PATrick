@@ -12,4 +12,4 @@
 
 %% Test cases
 -export([string/1, integer/1]).
--define(CONNECT_STR, "DSN=sqlserver;UID=alladin;PWD=sesame").
+-define(CONNECT_STR, "DSN=sqlserver;UID=alladin;PWD=sesame"). %% TODO change DSN UID PWD
