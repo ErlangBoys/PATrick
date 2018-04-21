@@ -4,6 +4,13 @@ Erlang administration tool for anime telegram channel
 This repository created for automate routine job in anime channels, for example downloading and posting photo/gif from image boards.
 Maybe downloading and posting content from other telegram channels in future.
 
+## Usage
+
+```sh
+$ ./rebar3 tree  # Download deps
+$ ./rebar3 compile # Compile project
+```
+
 ## Supported Boards
 
   * yande.re [API](https://yande.re/help/api)
@@ -21,8 +28,9 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 * **Vadim Romaniuk** - *Initial work* - [glicOne](https://github.com/RomaniukVadim)
 * **Dmytro Kovbasa**  - [Dmytro-Kovbasa](https://github.com/Dmytro-Kovbasa)
+* **Pavel Liferenko**  - [Pavel Liferenko](https://github.com/Liferenko)
 
-See also the list of [contributors](https://github.com/RomaniukVadim/dotfiles/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/ErlangBoys/PATrick/graphs/contributors) who participated in this project.
 
 ## License
 
