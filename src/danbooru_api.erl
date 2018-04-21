@@ -13,7 +13,7 @@
 -record(danbooru_schema, {url = <<"https://danbooru.donmai.us">>,
 			  path = <<"posts.json">>,
 			  limit = <<"200">>,
-			  pageTag =<<"page">>,
+			  pageTag = <<"page">>
 			 }).
 
 
