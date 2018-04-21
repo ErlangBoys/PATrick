@@ -16,7 +16,7 @@
 			      limit = <<"100">>,
 			      userAgent =  <<"SCChannelApp/3.0 (Android; black)">>,
 			      appkeySalt = <<"sankakuapp_%s_Z5NE9YASej">>,
-			      pageTag = <<"page">>.
+			      pageTag = <<"page">>}).
 
 %% idol_sankaku_schema preconfigured config for Sankaku Idol site
 -record(idol_sankaku_schema, {url = <<"https://iapi.sankakucomplex.com/">>,
@@ -25,4 +25,8 @@
 			      limit = <<"100">>,
 			      userAgent = <<"SCChannelApp/3.0 (Android; idol)">>,
 			      appkeySalt = <<"sankakuapp_%s_Z5NE9YASej">>,
-			      pageTag = <<"page">>.
+			      pageTag = <<"page">>}).
+
+
+get_photo(Options) ->
+    ok.
