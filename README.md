@@ -9,6 +9,10 @@ Maybe downloading and posting content from other telegram channels in future.
 ```sh
 $ ./rebar3 tree  # Download deps
 $ ./rebar3 compile # Compile project
+$ ./rebar3 shell
+1> gelbooru_api:get_photo({<<"1">>,<<"loli">>}).
+<<"[{\"source\":\"http:\\/\\/www.nijie.info\\/view.php?id=258736\",\"directory\":\"f5\\/f6\",\"hash\":\"f5f6f26474d41e0bac980679aa0d36"...>>
+
 ```
 
 ## Supported Boards
