@@ -8,7 +8,8 @@
 	stdlib,
 	cowboy,
 	 jsone,
-	 httpc
+	 hackney,
+	 epgsql
    ]},
   {env,[]},
   {modules, []},
