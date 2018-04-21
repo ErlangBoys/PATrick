@@ -1,0 +1,18 @@
+{application, patrick,
+ [{description, "Erlang administration tool for anime telegram channel"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { patrick_app, []}},
+  {applications,
+	[kernel,
+	stdlib,
+	cowboy,
+	jsone	
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, [{"@RomaniukVadim","@Liferenko","@Dmytro-Kovbasa"}]},
+  {licenses, ["Apache 2.0"]},
+  {links, [{"Github", "https://github.com/ErlangBoys/PATrick"}]}
+ ]}.
