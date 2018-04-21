@@ -17,7 +17,7 @@
 			  s = <<"post">>,
 			  q = <<"index">>,
 			  json = <<"1">>,
-			  limit = <<"100">>,
+			  limit = <<"1000">>,
 			  pid, tag, id}).
 
 get_photo({Pid,Tag}) ->
