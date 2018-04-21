@@ -13,12 +13,24 @@
 -record(danbooru_schema, {url = <<"https://danbooru.donmai.us">>,
 			  path = <<"posts.json">>,
 			  limit = <<"200">>,
-			  pageTag = <<"page">>
-			 }).
+			  page = <<"page">>,
+			  pid, tag, md5, random, raw}).
 
+get_photo({Pid,Tag}) ->
+    DConf = #danbooru_schema{pid=Pid,
+			     tag=Tag
+			    },
 
-get_photo(Options) ->
-    ok.
+    URL = hackney_url:make_url(DConf#danbooru_schema.url,
+			       DConf#danbooru_schema.path,
+			       [{<<"page">>, <<(DConf#danbooru_schema.page)/binary>>},
+				{<<"limit">>, <<(DConf#danbooru_schema.limit)/binary>>},
+				{<<"pid">>, <<(DConf#danbooru_schema.pid)/binary>>},
+				{<<"tags">>, <<(DConf#danbooru_schema.tag)/binary>>}]),
+    
+    {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
+    {ok, BinaryResponse} = hackney:body(ClientRef,infinity),
+    BinaryResponse.
 
 
 %% Post contains native Danbooru data
