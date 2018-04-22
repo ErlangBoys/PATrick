@@ -38,8 +38,21 @@ get_yandere_photo({Page,Tags}) ->
 				{<<"tags">>, <<(YConf#yandeRe_schema.tags)/binary>>}]),
     
     {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
-    {ok, BinaryResponse} = hackney:body(ClientRef,infinity),
-    BinaryResponse.
+    case hackney:body(ClientRef,infinity) of
+	{ok, BinaryResponse} ->
+	    case jsone:try_decode(BinaryResponse) of
+		{ok, DecodedJsonList, _BinNextValue} ->
+		    DecodedJsonList;
+		{error, Reason} ->
+		    %% there was some other error, e.g. server is not available
+		    {error, Reason}
+	    end;
+	{error, {closed, BinResp}} ->
+	    {error,{closed, BinResp}};
+	{error, Reason} ->
+	    %% there was some other error, e.g. server is not available
+	    {error, Reason}
+	end.
 
 get_konachan_photo({Page,Tags}) ->
     KConf = #konachan_schema{page=Page,
@@ -53,9 +66,21 @@ get_konachan_photo({Page,Tags}) ->
 				{<<"tags">>, <<(KConf#konachan_schema.tags)/binary>>}]),
     
     {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
-    {ok, BinaryResponse} = hackney:body(ClientRef,infinity),
-    BinaryResponse.
-
+    case hackney:body(ClientRef,infinity) of
+	{ok, BinaryResponse} ->
+	    case jsone:try_decode(BinaryResponse) of
+		{ok, DecodedJsonList, _BinNextValue} ->
+		    DecodedJsonList;
+		{error, Reason} ->
+		    %% there was some other error, e.g. server is not available
+		    {error, Reason}
+	    end;
+	{error, {closed, BinResp}} ->
+	    {error,{closed, BinResp}};
+	{error, Reason} ->
+	    %% there was some other error, e.g. server is not available
+	    {error, Reason}
+	end.
 
 
 

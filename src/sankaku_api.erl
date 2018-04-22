@@ -40,8 +40,21 @@ get_chan_photo({Page,Tags}) ->
 				{<<"tags">>, <<(CConf#chan_sankaku_schema.tags)/binary>>}]),
     
     {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
-    {ok, BinaryResponse} = hackney:body(ClientRef,infinity),
-    BinaryResponse.
+    case hackney:body(ClientRef,infinity) of
+	{ok, BinaryResponse} ->
+	    case jsone:try_decode(BinaryResponse) of
+		{ok, DecodedJsonList, _BinNextValue} ->
+		    DecodedJsonList;
+		{error, Reason} ->
+		    %% there was some other error, e.g. server is not available
+		    {error, Reason}
+	    end;
+	{error, {closed, BinResp}} ->
+	    {error,{closed, BinResp}};
+	{error, Reason} ->
+	    %% there was some other error, e.g. server is not available
+	    {error, Reason}
+	end.
 
 get_idol_photo({Page,Tags}) ->
     IConf = #idol_sankaku_schema{page=Page,
@@ -55,8 +68,21 @@ get_idol_photo({Page,Tags}) ->
 				{<<"tags">>, <<(IConf#idol_sankaku_schema.tags)/binary>>}]),
     
     {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
-    {ok, BinaryResponse} = hackney:body(ClientRef,infinity),
-    BinaryResponse.
+    case hackney:body(ClientRef,infinity) of
+	{ok, BinaryResponse} ->
+	    case jsone:try_decode(BinaryResponse) of
+		{ok, DecodedJsonList, _BinNextValue} ->
+		    DecodedJsonList;
+		{error, Reason} ->
+		    %% there was some other error, e.g. server is not available
+		    {error, Reason}
+	    end;
+	{error, {closed, BinResp}} ->
+	    {error,{closed, BinResp}};
+	{error, Reason} ->
+	    %% there was some other error, e.g. server is not available
+	    {error, Reason}
+	end.
 
 
 

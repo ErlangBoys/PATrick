@@ -38,19 +38,22 @@ get_photo({Pid,Tag}) ->
 				{<<"pid">>, <<(GConf#gelbooru_schema.pid)/binary>>},
 				{<<"tags">>, <<(GConf#gelbooru_schema.tag)/binary>>}]),
     
-    {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
-    {ok, BinaryResponse} = hackney:body(ClientRef,infinity),
-    BinaryResponse.
-
-%% case :hackney.get(url, [],[], [:with_body]) do
-%%  {:ok, status, _headers, body} when status in 200..299 ->
-%%    {:ok, Poison.decode!(body)}
-%%  {:ok, status, headers, body} ->
-%%    # we got some other http status, make it an error
-%%    {:error, {:request, status, headers, body}}
-%%  {:error, reason} ->
-%%    # there was some other error, e.g. server is not available
-%%    {:error, {:network, reason}}
+    {ok, ResultCode, _ResultHeaders, ClientRef} = hackney:request(get, URL),
+    case hackney:body(ClientRef,infinity) of
+	{ok, BinaryResponse} ->
+	    case jsone:try_decode(BinaryResponse) of
+		{ok, DecodedJsonList, _BinNextValue} ->
+		    DecodedJsonList;
+		{error, Reason} ->
+		    %% there was some other error, e.g. server is not available
+		    {error, Reason}
+	    end;
+	{error, {closed, BinResp}} ->
+	    {error,{closed, BinResp}};
+	{error, Reason} ->
+	    %% there was some other error, e.g. server is not available
+	    {error, Reason}
+	end.
 %% end
 
 %% response json struct {
