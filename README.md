@@ -43,6 +43,18 @@ $ ./rebar3 shell
   * chan.sankakucomplex.com [API](https://chan.sankakucomplex.com/help/api)
   * idol.sankakucomplex.com [API](https://idol.sankakucomplex.com/help/api)
 
+## Stack
+
+```
+Erlang 20
+rebar3 
+Cowboy
+Telegram API (https://github.com/seriyps/pe4kin)
+JSON (https://github.com/sile/jsone)
+Postgres
+HTTP Requests (hackney)
+```
+
 ## Branches
 
 ### moebooru_api
