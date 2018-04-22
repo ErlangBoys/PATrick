@@ -1,6 +1,6 @@
 -module(sankaku_api).
 
--export([get_photo/1]).
+-export([get_chan_photo/1, get_idol_photo/1]).
 %%
 %% Module sankaku implements a simple library for accessing Sankakucomplex-based
 %% image boards.
@@ -16,7 +16,7 @@
 			      limit = <<"100">>,
 			      userAgent =  <<"SCChannelApp/3.0 (Android; black)">>,
 			      appkeySalt = <<"sankakuapp_%s_Z5NE9YASej">>,
-			      pageTag = <<"page">>}).
+			      page, tags}).
 
 %% idol_sankaku_schema preconfigured config for Sankaku Idol site
 -record(idol_sankaku_schema, {url = <<"https://iapi.sankakucomplex.com/">>,
@@ -25,11 +25,38 @@
 			      limit = <<"100">>,
 			      userAgent = <<"SCChannelApp/3.0 (Android; idol)">>,
 			      appkeySalt = <<"sankakuapp_%s_Z5NE9YASej">>,
-			      pageTag = <<"page">>}).
+			      page, tags}).
 
 
-get_photo(Options) ->
-    ok.
+get_chan_photo({Page,Tags}) ->
+    CConf = #chan_sankaku_schema{page=Page,
+				 tags=Tags
+				},
+
+    URL = hackney_url:make_url(CConf#chan_sankaku_schema.url,
+			       CConf#chan_sankaku_schema.path,
+			       [{<<"page">>, <<(CConf#chan_sankaku_schema.page)/binary>>},
+				{<<"limit">>, <<(CConf#chan_sankaku_schema.limit)/binary>>},
+				{<<"tags">>, <<(CConf#chan_sankaku_schema.tags)/binary>>}]),
+    
+    {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
+    {ok, BinaryResponse} = hackney:body(ClientRef,infinity),
+    BinaryResponse.
+
+get_idol_photo({Page,Tags}) ->
+    IConf = #idol_sankaku_schema{page=Page,
+			     tags=Tags
+			    },
+
+    URL = hackney_url:make_url(IConf#idol_sankaku_schema.url,
+			       IConf#idol_sankaku_schema.path,
+			       [{<<"page">>, <<(IConf#idol_sankaku_schema.page)/binary>>},
+				{<<"limit">>, <<(IConf#idol_sankaku_schema.limit)/binary>>},
+				{<<"tags">>, <<(IConf#idol_sankaku_schema.tags)/binary>>}]),
+    
+    {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
+    {ok, BinaryResponse} = hackney:body(ClientRef,infinity),
+    BinaryResponse.
 
 
 
