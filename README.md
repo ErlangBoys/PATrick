@@ -1,6 +1,6 @@
 # PATrick
 
-[![Build Status](https://api.travis-ci.org/repos/ErlangBoys/PATrick/cc.xml?branch=dev)](https://travis-ci.org/ErlangBoys/PATrick)
+[![Build Status](https://api.travis-ci.org/repos/ErlangBoys/PATrick.svg?branch=dev)](https://travis-ci.org/ErlangBoys/PATrick)
 
 Erlang administration tool for anime telegram channel
 
