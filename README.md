@@ -1,4 +1,7 @@
 # PATrick
+
+[![Build Status](https://api.travis-ci.org/repos/ErlangBoys/PATrick/cc.xml?branch=dev)](https://travis-ci.org/ErlangBoys/PATrick)
+
 Erlang administration tool for anime telegram channel
 
 This repository created for automate routine job in anime channels, for example downloading and posting photo/gif from image boards.
