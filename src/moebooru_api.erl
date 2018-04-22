@@ -1,6 +1,6 @@
 -module(moebooru_api).
 
--export([get_photo/1]).
+-export([get_yandere_photo/1,get_konachan_photo/1]).
 %%
 %% Package moebooru implements a simple library for accessing Moebooru-based image
 %% boards.
@@ -15,7 +15,7 @@
 			 path =  <<"post.json">>,
 			 passwordSalt = <<"choujin-steiner--%s--">>,
 			 limit = <<"1000">>,
-			 pageTag = <<"page">>
+			 page, tags
 			}).
 
 %% KonachanConfig preconfigured config for konachan.com site
@@ -23,12 +23,39 @@
 			  path = <<"post.json">>,
 			  passwordSalt = <<"So-I-Heard-You-Like-Mupkids-?--%s--">>,
 			  limit = <<"1000">>,
-			  pageTag = <<"page">>
+			  page, tags
 			 }).
 
+get_yandere_photo({Page,Tags}) ->
+    YConf = #yandeRe_schema{page=Page,
+			     tags=Tags
+			    },
 
-get_photo(Options) ->
-    ok.
+    URL = hackney_url:make_url(YConf#yandeRe_schema.url,
+			       YConf#yandeRe_schema.path,
+			       [{<<"page">>, <<(YConf#yandeRe_schema.page)/binary>>},
+				{<<"limit">>, <<(YConf#yandeRe_schema.limit)/binary>>},
+				{<<"tags">>, <<(YConf#yandeRe_schema.tags)/binary>>}]),
+    
+    {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
+    {ok, BinaryResponse} = hackney:body(ClientRef,infinity),
+    BinaryResponse.
+
+get_konachan_photo({Page,Tags}) ->
+    KConf = #konachan_schema{page=Page,
+			     tags=Tags
+			    },
+
+    URL = hackney_url:make_url(KConf#konachan_schema.url,
+			       KConf#konachan_schema.path,
+			       [{<<"page">>, <<(KConf#konachan_schema.page)/binary>>},
+				{<<"limit">>, <<(KConf#konachan_schema.limit)/binary>>},
+				{<<"tags">>, <<(KConf#konachan_schema.tags)/binary>>}]),
+    
+    {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
+    {ok, BinaryResponse} = hackney:body(ClientRef,infinity),
+    BinaryResponse.
+
 
 
 
