@@ -10,8 +10,11 @@ Maybe downloading and posting content from other telegram channels in future.
 $ ./rebar3 tree  # Download deps
 $ ./rebar3 compile # Compile project
 $ ./rebar3 shell
-1> gelbooru_api:get_photo({<<"1">>,<<"loli">>}).
+1> gelbooru_api:get_photo({<<"1">>,<<"loli">>}). # get_photo(Page_Number, Tags)
 <<"[{\"source\":\"http:\\/\\/www.nijie.info\\/view.php?id=258736\",\"directory\":\"f5\\/f6\",\"hash\":\"f5f6f26474d41e0bac980679aa0d36"...>>
+2> danbooru_api:get_photo({<<"1">>,<<"loli">>}). # get_photo(Page_Number, Tags)
+<<"[{\"id\":3096704,\"created_at\":\"2018-04-21T18:07:27.232-04:00\",\"uploader_id\":508240,\"score\":6,\"source\":\"https://pawoo.n"...>>
+
 
 ```
 
