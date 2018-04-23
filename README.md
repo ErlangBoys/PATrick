@@ -195,15 +195,14 @@ $ ./rebar3 shell
 
 ## Stack
 
-```
-Erlang 20
-[rebar3](https://github.com/erlang/rebar3) 
-[Cowboy](https://github.com/ninenines/cowboy)
-[Telegram API](https://github.com/seriyps/pe4kin)
-[JSON](https://github.com/sile/jsone)
-[Postgres](https://github.com/epgsql/epgsql)
-[HTTP Requests](https://github.com/benoitc/hackney)
-```
+* Erlang 20
+* [rebar3](https://github.com/erlang/rebar3) 
+* [Cowboy](https://github.com/ninenines/cowboy)
+* [Telegram API](https://github.com/seriyps/pe4kin)
+* [JSON](https://github.com/sile/jsone)
+* [Postgres](https://github.com/epgsql/epgsql)
+* [HTTP Requests](https://github.com/benoitc/hackney)
+
 
 ## Branches
 
