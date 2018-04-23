@@ -27,6 +27,9 @@ get_photo({Pid,Tags}) ->
 				{<<"tags">>, <<(DConf#danbooru_schema.tags)/binary>>}]),
     
     {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
+    decode_json(ResultCode, ClientRef).
+
+decode_json(ResultCode, ClientRef) when ResultCode == 200 ->
     case hackney:body(ClientRef,infinity) of
 	{ok, BinaryResponse} ->
 	    case jsone:try_decode(BinaryResponse) of
@@ -41,7 +44,8 @@ get_photo({Pid,Tags}) ->
 	{error, Reason} ->
 	    %% there was some other error, e.g. server is not available
 	    {error, Reason}
-	end.
+    end.
+
 %%
 
 %% Post contains native Danbooru data

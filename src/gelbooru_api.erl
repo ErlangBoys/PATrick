@@ -39,6 +39,9 @@ get_photo({Pid,Tag}) ->
 				{<<"tags">>, <<(GConf#gelbooru_schema.tag)/binary>>}]),
     
     {ok, ResultCode, _ResultHeaders, ClientRef} = hackney:request(get, URL),
+    decode_json(ResultCode, ClientRef).
+
+decode_json(ResultCode, ClientRef) when ResultCode == 200 ->
     case hackney:body(ClientRef,infinity) of
 	{ok, BinaryResponse} ->
 	    case jsone:try_decode(BinaryResponse) of
@@ -53,7 +56,8 @@ get_photo({Pid,Tag}) ->
 	{error, Reason} ->
 	    %% there was some other error, e.g. server is not available
 	    {error, Reason}
-	end.
+    end.
+
 %% end
 
 %% response json struct {

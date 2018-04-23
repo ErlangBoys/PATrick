@@ -40,21 +40,7 @@ get_chan_photo({Page,Tags}) ->
 				{<<"tags">>, <<(CConf#chan_sankaku_schema.tags)/binary>>}]),
     
     {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
-    case hackney:body(ClientRef,infinity) of
-	{ok, BinaryResponse} ->
-	    case jsone:try_decode(BinaryResponse) of
-		{ok, DecodedJsonList, _BinNextValue} ->
-		    DecodedJsonList;
-		{error, Reason} ->
-		    %% there was some other error, e.g. server is not available
-		    {error, Reason}
-	    end;
-	{error, {closed, BinResp}} ->
-	    {error,{closed, BinResp}};
-	{error, Reason} ->
-	    %% there was some other error, e.g. server is not available
-	    {error, Reason}
-	end.
+    decode_json(ResultCode, ClientRef).
 
 get_idol_photo({Page,Tags}) ->
     IConf = #idol_sankaku_schema{page=Page,
@@ -68,6 +54,9 @@ get_idol_photo({Page,Tags}) ->
 				{<<"tags">>, <<(IConf#idol_sankaku_schema.tags)/binary>>}]),
     
     {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
+    decode_json(ResultCode, ClientRef).
+
+decode_json(ResultCode, ClientRef) when ResultCode == 200 ->
     case hackney:body(ClientRef,infinity) of
 	{ok, BinaryResponse} ->
 	    case jsone:try_decode(BinaryResponse) of
@@ -82,7 +71,7 @@ get_idol_photo({Page,Tags}) ->
 	{error, Reason} ->
 	    %% there was some other error, e.g. server is not available
 	    {error, Reason}
-	end.
+    end.
 
 
 

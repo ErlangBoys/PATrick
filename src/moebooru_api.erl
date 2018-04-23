@@ -38,21 +38,7 @@ get_yandere_photo({Page,Tags}) ->
 				{<<"tags">>, <<(YConf#yandeRe_schema.tags)/binary>>}]),
     
     {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
-    case hackney:body(ClientRef,infinity) of
-	{ok, BinaryResponse} ->
-	    case jsone:try_decode(BinaryResponse) of
-		{ok, DecodedJsonList, _BinNextValue} ->
-		    DecodedJsonList;
-		{error, Reason} ->
-		    %% there was some other error, e.g. server is not available
-		    {error, Reason}
-	    end;
-	{error, {closed, BinResp}} ->
-	    {error,{closed, BinResp}};
-	{error, Reason} ->
-	    %% there was some other error, e.g. server is not available
-	    {error, Reason}
-	end.
+    decode_json(ResultCode, ClientRef).
 
 get_konachan_photo({Page,Tags}) ->
     KConf = #konachan_schema{page=Page,
@@ -65,7 +51,10 @@ get_konachan_photo({Page,Tags}) ->
 				{<<"limit">>, <<(KConf#konachan_schema.limit)/binary>>},
 				{<<"tags">>, <<(KConf#konachan_schema.tags)/binary>>}]),
     
-    {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
+    {ok, ResultCode, _Result, ClientRef} = hackney:request(get, URL),
+    decode_json(ResultCode, ClientRef).
+
+decode_json(ResultCode, ClientRef) when ResultCode == 200 ->
     case hackney:body(ClientRef,infinity) of
 	{ok, BinaryResponse} ->
 	    case jsone:try_decode(BinaryResponse) of
@@ -80,7 +69,7 @@ get_konachan_photo({Page,Tags}) ->
 	{error, Reason} ->
 	    %% there was some other error, e.g. server is not available
 	    {error, Reason}
-	end.
+    end.
 
 
 
