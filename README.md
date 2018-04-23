@@ -197,12 +197,12 @@ $ ./rebar3 shell
 
 ```
 Erlang 20
-rebar3 
-Cowboy
-Telegram API (https://github.com/seriyps/pe4kin)
-JSON (https://github.com/sile/jsone)
-Postgres
-HTTP Requests (hackney)
+[rebar3](https://github.com/erlang/rebar3) 
+[Cowboy](https://github.com/ninenines/cowboy)
+[Telegram API](https://github.com/seriyps/pe4kin)
+[JSON](https://github.com/sile/jsone)
+[Postgres](https://github.com/epgsql/epgsql)
+[HTTP Requests](https://github.com/benoitc/hackney)
 ```
 
 ## Branches
