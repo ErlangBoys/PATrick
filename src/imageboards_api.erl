@@ -1,6 +1,5 @@
-
 -module(imageboards_api).
-
+-author('Romaniuk Vadim <romaniuk.cv@gmail.com>').
 -export([get_photos_url/2]).
 
 %% Danbooru preconfigured url schema for danbooru.com site
@@ -52,7 +51,8 @@
 			      appkeySalt = <<"sankakuapp_%s_Z5NE9YASej">>,
 			      page, tags}).
 
-
+%% Function to retreive all Values from List of maps
+%%
 get_elements_from_list_of_maps(Key,List) ->
     get_elements_from_list_of_maps(Key, List, []).
 
@@ -67,28 +67,34 @@ get_elements_from_list_of_maps(Key,[H|T],List_of_values) ->
 	    {error,"get_photos_url maps:find error"}
     end,
     get_elements_from_list_of_maps(Key,T,[Value|List_of_values]).
+%%
+%% Function to retreive all Values from List of maps
 
+%% Main Function that return list of photos url in binary format
+%%
 get_photos_url({Page,Tags},Board) ->
     JsoneMaps = case Board of
 		    yandere ->
-			get_proplist_from_jsone_response({Page,Tags},yandere);
+			get_maps_from_jsone_response({Page,Tags},yandere);
 		    konachan ->
-			get_proplist_from_jsone_response({Page,Tags},konachan);
+			get_maps_from_jsone_response({Page,Tags},konachan);
 		    danbooru ->
-			get_proplist_from_jsone_response({Page,Tags},danbooru);
+			get_maps_from_jsone_response({Page,Tags},danbooru);
 		    gelbooru ->
-			get_proplist_from_jsone_response({Page,Tags},gelbooru);
+			get_maps_from_jsone_response({Page,Tags},gelbooru);
 		    idol_sankaku ->
-			get_proplist_from_jsone_response({Page,Tags},idol);
+			get_maps_from_jsone_response({Page,Tags},idol);
 		    chan_sankaku ->
-			get_proplist_from_jsone_response({Page,Tags},chan)
+			get_maps_from_jsone_response({Page,Tags},chan)
 		end,
     
     
     get_elements_from_list_of_maps(<<"file_url">>,  JsoneMaps).
-%% yandere, gelbooru, konachan, danbooru	
+%%
+%% Main Function that return list of photos url in binary format
 
-get_proplist_from_jsone_response({Page,Tags}, Board) ->
+
+get_maps_from_jsone_response({Page,Tags}, Board) ->
     URL = case Board of
 	danbooru ->
 	    DConf = #danbooru_schema{page=Page,
