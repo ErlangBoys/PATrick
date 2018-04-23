@@ -1,6 +1,6 @@
 -module(danbooru_api).
 
--export([get_photo/1]).
+-export([get_photos_url/1]).
 %%
 %% Module danbooru_api implements a simple library for accessing Danbooru-based image
 %% boards.
@@ -15,8 +15,19 @@
 			  limit = <<"200">>,
 			  page, tags, md5, random, raw}).
 
-get_photo({Pid,Tags}) ->
-    DConf = #danbooru_schema{page=Pid,
+
+get_photos_url({Page,Tags}) ->
+    JsoneProplist = get_proplist_from_jsone_response({Page,Tags}),
+    %% Need to lookup recursively
+    case maps:find(<<"source">>,  JsoneProplist) of
+	{ok,Result} ->
+	    Result;
+	error ->
+	    {error,"get_photos_url maps:find error"}
+    end.
+
+get_proplist_from_jsone_response({Page,Tags}) ->
+    DConf = #danbooru_schema{page=Page,
 			     tags=Tags
 			    },
 
@@ -26,7 +37,7 @@ get_photo({Pid,Tags}) ->
 				{<<"limit">>, <<(DConf#danbooru_schema.limit)/binary>>},
 				{<<"tags">>, <<(DConf#danbooru_schema.tags)/binary>>}]),
     
-    {ok, _ResultCode, _Result, ClientRef} = hackney:request(get, URL),
+    {ok, ResultCode, _Result, ClientRef} = hackney:request(get, URL),
     decode_json(ResultCode, ClientRef).
 
 decode_json(ResultCode, ClientRef) when ResultCode == 200 ->
@@ -34,7 +45,7 @@ decode_json(ResultCode, ClientRef) when ResultCode == 200 ->
 	{ok, BinaryResponse} ->
 	    case jsone:try_decode(BinaryResponse) of
 		{ok, DecodedJsonList, _BinNextValue} ->
-		    DecodedJsonList;
+		    DecodedJsonList; %% maps
 		{error, Reason} ->
 		    %% there was some other error, e.g. server is not available
 		    {error, Reason}
