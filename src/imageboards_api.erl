@@ -53,6 +53,9 @@
 
 %% Function to retreive all Values from List of maps
 %%
+
+-spec get_elements_from_list_of_maps(atom(), list(map())) -> list( <<>> ) .
+
 get_elements_from_list_of_maps(Key,List) ->
     get_elements_from_list_of_maps(Key, List, []).
 
@@ -72,6 +75,7 @@ get_elements_from_list_of_maps(Key,[H|T],List_of_values) ->
 
 %% Main Function that return list of photos url in binary format
 %%
+-spec get_photos_url(tuple(),atom()) -> list( <<>> ).
 get_photos_url({Page,Tags},Board) ->
     JsoneMaps = case Board of
 		    yandere ->
@@ -93,6 +97,7 @@ get_photos_url({Page,Tags},Board) ->
 %%
 %% Main Function that return list of photos url in binary format
 
+-spec get_maps_from_jsone_response(tuple(), atom()) -> list(map()).
 
 get_maps_from_jsone_response({Page,Tags}, Board) ->
     URL = case Board of
