@@ -11,7 +11,7 @@ connect_test(Module) ->
     connect_only(Module, []).
 
 connect_to_db_test(Module) ->
-    connect_only(Module, [{database, "epgsql_test_db"}]).
+    connect_only(Module, [{database, "db_for_api_data"}]).
 
  %% Test server callbacks
 %% -export([suite/0, all/0, 
