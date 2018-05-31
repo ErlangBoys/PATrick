@@ -51,6 +51,27 @@
 			      appkeySalt = <<"sankakuapp_%s_Z5NE9YASej">>,
 			      page, tags}).
 
+%% rule34 preconfigured schema for rule34.xxx site
+-record(rule34_schema, {url = <<"https://rule34.xxx/">>,
+			  path = <<"index.php">>,
+			  page = <<"dapi">>,
+			  s = <<"post">>,
+			  q = <<"index">>,
+			  json = <<"1">>,
+			  limit = <<"1000">>,
+			  pid, tag, id}).
+
+%% realbooru.com preconfigured schema for realbooru.com site
+-record(realbooru_schema, {url = <<"https://realbooru.com/">>,
+			  path = <<"index.php">>,
+			  page = <<"dapi">>,
+			  s = <<"post">>,
+			  q = <<"index">>,
+			  json = <<"1">>,
+			  limit = <<"1000">>,
+			  pid, tag, id}).
+
+
 %% Function to retreive all Values from List of maps
 %%
 
@@ -89,11 +110,32 @@ get_photos_url({Page,Tags},Board) ->
 		    idol_sankaku ->
 			get_maps_from_jsone_response({Page,Tags},idol);
 		    chan_sankaku ->
-			get_maps_from_jsone_response({Page,Tags},chan)
+			get_maps_from_jsone_response({Page,Tags},chan);
+		    rule34 ->
+			get_maps_from_jsone_response({Page,Tags},rule34);
+		    realbooru ->
+			get_maps_from_jsone_response({Page,Tags},realbooru)
 		end,
     
-    
-    get_elements_from_list_of_maps(<<"file_url">>,  JsoneMaps).
+    PhotoURL = case Board of
+		   yandere ->
+		       get_elements_from_list_of_maps(<<"file_url">>,  JsoneMaps);
+		   konachan ->
+		       get_elements_from_list_of_maps(<<"file_url">>,  JsoneMaps);
+		   danbooru ->
+		       get_elements_from_list_of_maps(<<"file_url">>,  JsoneMaps);
+		   gelbooru ->
+		       get_elements_from_list_of_maps(<<"file_url">>,  JsoneMaps);
+		   idol_sankaku ->
+		       get_elements_from_list_of_maps(<<"file_url">>,  JsoneMaps);
+		   chan_sankaku ->
+		       get_elements_from_list_of_maps(<<"file_url">>,  JsoneMaps);
+		   rule34 ->
+		       get_elements_from_list_of_maps(<<"image">>,  JsoneMaps);
+		   realbooru ->
+		       get_elements_from_list_of_maps(<<"image">>,  JsoneMaps)
+	       end,
+    PhotoURL.
 %%
 %% Main Function that return list of photos url in binary format
 
@@ -161,7 +203,33 @@ get_maps_from_jsone_response({Page,Tags}, Board) ->
 				       CConf#chan_sankaku_schema.path,
 				       [{<<"page">>, <<(CConf#chan_sankaku_schema.page)/binary>>},
 					{<<"limit">>, <<(CConf#chan_sankaku_schema.limit)/binary>>},
-					{<<"tags">>, <<(CConf#chan_sankaku_schema.tags)/binary>>}])
+					{<<"tags">>, <<(CConf#chan_sankaku_schema.tags)/binary>>}]);
+	      rule34 ->
+	    GConf = #rule34_schema{pid=Page,
+				     tag=Tags},
+
+	    hackney_url:make_url(GConf#rule34_schema.url,
+				       GConf#rule34_schema.path,
+				       [{<<"page">>, <<(GConf#rule34_schema.page)/binary>>},
+					{<<"s">>, <<(GConf#rule34_schema.s)/binary>>},
+					{<<"q">>, <<(GConf#rule34_schema.q)/binary>>},
+					{<<"json">>, <<(GConf#rule34_schema.json)/binary>>},
+					{<<"limit">>, <<(GConf#rule34_schema.limit)/binary>>},
+					{<<"pid">>, <<(GConf#rule34_schema.pid)/binary>>},
+					{<<"tags">>, <<(GConf#rule34_schema.tag)/binary>>}]);
+	      realbooru ->
+	    GConf = #realbooru_schema{pid=Page,
+				     tag=Tags},
+
+	    hackney_url:make_url(GConf#realbooru_schema.url,
+				       GConf#realbooru_schema.path,
+				       [{<<"page">>, <<(GConf#realbooru_schema.page)/binary>>},
+					{<<"s">>, <<(GConf#realbooru_schema.s)/binary>>},
+					{<<"q">>, <<(GConf#realbooru_schema.q)/binary>>},
+					{<<"json">>, <<(GConf#realbooru_schema.json)/binary>>},
+					{<<"limit">>, <<(GConf#realbooru_schema.limit)/binary>>},
+					{<<"pid">>, <<(GConf#realbooru_schema.pid)/binary>>},
+					{<<"tags">>, <<(GConf#realbooru_schema.tag)/binary>>}])
     end,
     
     {ok, ResultCode, _Result, ClientRef} = hackney:request(get, URL),

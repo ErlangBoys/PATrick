@@ -77,6 +77,58 @@ $ ./rebar3 shell
  <<...>>|...]
 ```
 
+### Rule34 API Test
+
+```sh
+5> imageboards_api:get_photos_url({<<1>>,<<"dragon_ball">>},rule34). 
+[<<"3493a29d63d99677eab97151a2bf1f05.jpeg">>,
+ <<"6ab50170c0406a5fd6f100cd583bf08a.jpeg">>,
+ <<"f9e35620c5f81afdb213b499feff9ebb.jpeg">>,
+ <<"62cae6366f4224080d452f40422e7550.png">>,
+ <<"f9cc7a49118a1a9abc9f8c33ebbb1ee6.jpeg">>,
+ <<"6b528af71e8e30c9f477f04192c7895b.jpeg">>,
+ <<"d4e29b27d18d606e467f17dec009b2c6.png">>,
+ <<"b5cc31bb2b2a30d5f092286878fc6bbf.jpeg">>,
+ <<"32480121eb79d846911b94624698cdfa.jpeg">>,
+ <<"775cfa0c6f695c5c26e6419804252830.jpeg">>,
+ <<"e5b7e12d6e5d31701a3a78812752214e.jpeg">>,
+ <<"08b3d036bfa62fa27ed8b8ed86fd94ce.jpeg">>,
+ <<"2692f5569b3302035e78b23406a435756a73daed.png">>,
+ <<"267dfc1b3ae74aa952f015d2c51b7b3cad26af93.png">>,
+ <<"e88ebd42b304b97ff9a19ec74c5f0c17f4dba096.png">>,
+ <<"f890c068823af4c23b2b4e5a6ed74295a860ed21.png">>,
+ <<"d69ae6c985fd88003bf53d907a1d4b69.png">>,
+ <<"822f211332c851010f6c4534206fc036.jpeg">>,
+ <<"d0b697c3a28345d0126506be8383d8e1.jpeg">>,
+ <<"e9f9bfb0dfc923f16e08c5cd75e59968.png">>,
+ <<"1f79170453823bf141621ecb2c8ac2c9"...>>,
+ <<"a4e4d866fae9b678c4c85ae93dfd"...>>,
+ <<"68cf2e595124b1fb7bf0d9bd"...>>,
+ <<"64f95c739337e40e8c1f"...>>,<<"93b9afa3bb3c1dd5"...>>,
+ <<"d915f0ef3cde"...>>,<<"afcf7545"...>>,<<"e7db"...>>,
+ <<...>>|...]
+
+```
+
+### Realbooru API Test
+
+```sh
+6>  imageboards_api:get_photos_url({<<1>>,<<"dragon_ball">>},realbooru).
+[<<"fcb0c01578fcb35078141c5e0fdfca17c6994039.jpeg">>,
+ <<"b41a9fe268b4de4d9782453b7d93fbf0a4c5f29e.jpeg">>,
+ <<"2c9fa8e28aefd37028ba63243f319678ad4fe5e1.jpeg">>,
+ <<"34769659cfcd626949f906d77961dcfe89deb970.jpg">>,
+ <<"2f9da24299688909ca52ca5333e370a569cbba8c.jpg">>,
+ <<"bf013d12d4cef9e541c10a3d07771cda64b38a2b.jpg">>,
+ <<"b9092ec9e5c5b1cbe1b6dff80ab86490c839237d.jpg">>,
+ <<"159b5549630dae2861afa5d5831106ca6d4f9677.jpg">>,
+ <<"8b0ef7d62b4c0830bd2eed68e2a286f972b6bb55.jpg">>,
+ <<"14d39389cb40b244fef1619928c41de3.webm">>,
+ <<"fe4dbc16bbf3cc6bf122d6e66d4bce66.jpeg">>,
+ <<"2286ac04860d806c24e842d918e04cb7.png">>]
+```
+
+
 ## Supported Boards
 
   * yande.re [API](https://yande.re/help/api)
@@ -85,7 +137,9 @@ $ ./rebar3 shell
   * danbooru.donmai.us [API](https://danbooru.donmai.us/wiki_pages/43568) and [cheatsheet](https://danbooru.donmai.us/wiki_pages/43049)
   * chan.sankakucomplex.com [API](https://chan.sankakucomplex.com/help/api)
   * idol.sankakucomplex.com [API](https://idol.sankakucomplex.com/help/api)
-
+  * realbooru.com [API](https://realbooru.com/index.php?page=help&topic=dapi)
+  * rule34.xxx [API](https://rule34.xxx/index.php?page=help&topic=dapi)
+  
 ## Stack
 
 * Erlang 20
